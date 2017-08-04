@@ -39,7 +39,6 @@ public class OrderController {
   @GetMapping
   public ResponseEntity<List<Order>> getOrdersByDate(
       @RequestParam(name = "date", required = false)
-      @DateTimeFormat(iso = ISO.DATE)
           Optional<LocalDate> date) {
 
     List<Order> orders = date
