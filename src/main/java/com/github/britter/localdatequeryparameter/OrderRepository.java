@@ -41,4 +41,7 @@ public class OrderRepository {
             .collect(toList());
   }
 
+  public List<Order> findAll() {
+    return store;
+  }
 }

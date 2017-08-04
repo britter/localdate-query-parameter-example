@@ -17,6 +17,7 @@ package com.github.britter.localdatequeryparameter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +38,13 @@ public class OrderController {
 
   @GetMapping
   public ResponseEntity<List<Order>> getOrdersByDate(
-      @RequestParam(name = "date")
+      @RequestParam(name = "date", required = false)
       @DateTimeFormat(iso = ISO.DATE)
-      LocalDate date) {
-    List<Order> orders = repository.findByOrderDate(date);
+          Optional<LocalDate> date) {
+
+    List<Order> orders = date
+        .map(repository::findByOrderDate)
+        .orElseGet(repository::findAll);
 
     return ResponseEntity.ok(orders);
   }
